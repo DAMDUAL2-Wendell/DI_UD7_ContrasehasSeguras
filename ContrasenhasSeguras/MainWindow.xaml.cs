@@ -24,6 +24,7 @@ namespace ContrasenhasSeguras
         Boolean minusculas = true;
         Boolean numeros = true;
         Boolean simbolos = true;
+        string textoLongitudContrasenha = "Longitud de la contraseña:";
 
         public MainWindow()
         {
@@ -61,7 +62,6 @@ namespace ContrasenhasSeguras
         private String GenerarContrasenha(Boolean mayusculas, Boolean minusculas, Boolean numeros, Boolean simbolos)
         {
             var rand = new Random();
-            double valorSlider = slider.Value;
             var resultados = new List<string>();
 
             string mayus = "";
@@ -126,5 +126,9 @@ namespace ContrasenhasSeguras
             return lowercase? stringBuilder.ToString().ToLower() : stringBuilder.ToString().ToUpper();
         }
 
+        private void ValueChangedSlider(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            labelLongitud.Content = textoLongitudContrasenha + slider.Value.ToString();
+        }
     }
 }
