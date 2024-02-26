@@ -14,6 +14,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using SharpVectors.Converters;
+using SharpVectors.Renderers.Wpf;
+using System.IO;
 
 namespace ContrasenhasSeguras
 {
@@ -52,6 +55,46 @@ namespace ContrasenhasSeguras
             Loaded += MainWindow_Loaded;
 
 
+            AsignarSvgABoton("../../../Resources/renewal.svg", btnRenovar);
+
+
+        }
+
+        private void AsignarSvgABoton(string rutaSvg, Button boton)
+        {
+            try
+            {
+                // Crear un nuevo WpfDrawingSettings con valores predeterminados
+                var defaultWpfDrawingSettings = new WpfDrawingSettings();
+
+                // Crear un FileSvgReader con las configuraciones predeterminadas
+                var svgReader = new FileSvgReader(false, false, new DirectoryInfo(Directory.GetCurrentDirectory()), defaultWpfDrawingSettings);
+
+                // Ruta del archivo SVG
+                string svgFilePath = rutaSvg;
+
+                // Crear un nuevo FileStream para cargar el archivo SVG
+                using (FileStream stream = new FileStream(svgFilePath, FileMode.Open))
+                {
+                    // Crear un DrawingGroup desde el archivo SVG
+                    DrawingGroup drawing = svgReader.Read(stream);
+
+                    // Crear un Image para mostrar el SVG
+                    var image = new Image
+                    {
+                        Source = new DrawingImage(drawing),
+                        Stretch = Stretch.Uniform // Opcional: ajusta según sea necesario
+                    };
+
+                    // Asignar el Image como contenido del botón
+                    boton.Content = image;
+                }
+            }
+            catch(Exception ex)
+            {
+
+            }
+            
         }
 
         private void GenerarNuevaContrasenha()
@@ -245,6 +288,7 @@ namespace ContrasenhasSeguras
             var rand = new Random();
 
             string ret;
+
             bool requerimientos = false;
 
             do
@@ -254,39 +298,58 @@ namespace ContrasenhasSeguras
                 {
                     ret += GenerarUnSoloValorContrasenha(rand);
                 }
+
                 requerimientos = comprobarRequerimientosContrasenha(ret);
 
                 // Repetir bucle y generar una nueva contraseña si la anterior no cumple los requisitos,
                 // si estan marcados los 4 checkBox la contraseña debe tener al menos un caracter de cada
                 // de los marcados es de cir una mayuscula, una minuscula, un numero y un simbolo, a menos
                 // que la contraseña tenga longitud 3 en cuyo caso es imposible que se cumpla eso.
-            } while (!requerimientos && ret.Length >= 4);
+            } while (!requerimientos);
 
             return ret;
         }
 
-        private Boolean comprobarRequerimientosContrasenha(String Contrasenha)
+        private bool comprobarRequerimientosContrasenha(string Contrasenha)
         {
             bool contieneMayusculas = false;
             bool contieneMinusculas = false;
             bool contieneNumeros = false;
             bool contieneSimbolos = false;
 
+            char[] simbolos = { '.', ';', '@' };
+
             foreach (char caracter in Contrasenha)
             {
                 if (char.IsUpper(caracter)) contieneMayusculas = true;
                 else if (char.IsLower(caracter)) contieneMinusculas = true;
                 else if (char.IsDigit(caracter)) contieneNumeros = true;
-                else contieneSimbolos = true;
+                else if (simbolos.Contains(caracter)) contieneSimbolos = true;
             }
 
+            // Si la longitud de la contraseña no es igual a la cantidad de checkbox marcados,
+            // simplemente verificamos si la contraseña contiene todos los tipos de caracteres seleccionados
             return (
                 contieneMayusculas == checkBoxMayus &&
                 contieneMinusculas == checkBoxMinus &&
                 contieneNumeros == checkBoxNumeros &&
                 contieneSimbolos == checkBoxSimboloss
-                );
+            );
         }
+
+
+        private int CantidadCheckBoxSeleccionados()
+        {
+            int cantidadSeleccionados = 0;
+
+            if (checkBoxMayus) cantidadSeleccionados++;
+            if (checkBoxMinus) cantidadSeleccionados++;
+            if (checkBoxNumeros) cantidadSeleccionados++;
+            if (checkBoxSimboloss) cantidadSeleccionados++;
+
+            return cantidadSeleccionados;
+        }
+
 
 
         private string GenerarUnSoloValorContrasenha(Random rand)

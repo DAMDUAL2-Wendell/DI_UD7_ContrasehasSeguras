@@ -8,7 +8,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="renewal.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MahApps.Metro" Version="2.4.10" />
+    <PackageReference Include="SharpVectors" Version="1.8.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="renewal.svg" />
   </ItemGroup>
 
 </Project>
