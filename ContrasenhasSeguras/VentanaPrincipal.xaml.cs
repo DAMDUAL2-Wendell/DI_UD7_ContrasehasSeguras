@@ -1,4 +1,5 @@
-﻿using ControlzEx.Theming;
+﻿using ControlzEx.Standard;
+using ControlzEx.Theming;
 using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
@@ -45,6 +46,9 @@ namespace ContrasenhasSeguras
 
             GenerarNuevaContrasenha();
 
+            AsignarColorProgressBar(CalcularFortalezaContrasenha(textBoxContrasenhaGenerada.Text));
+
+
             Loaded += MainWindow_Loaded;
 
 
@@ -57,11 +61,43 @@ namespace ContrasenhasSeguras
             // Generar una nueva contraseña
             string nuevaContrasenha = GenerarContrasenha();
 
+            AsignarColorProgressBar(CalcularFortalezaContrasenha(nuevaContrasenha));
+
+
             // Asignar la nueva contraseña al TextBox
             AsignarContrasenha(nuevaContrasenha);
 
             // Actualizar el ProgressBar
             AsignarValorProgressBar();
+
+            CambiarLabelContrasehaSegura(ObtenerNivelSeguridad(CalcularFortalezaContrasenha(nuevaContrasenha)));
+
+            CambiarValorLabelLongitud(nuevaContrasenha.Length);
+
+
+
+        }
+
+        private void ComprobarContrasenhaIngresada()
+        {
+            AsignarCheckBox();
+
+            // Guardar en memoria la contrasenha que está actualmente en el TextBox
+            string passActual = textBoxContrasenhaGenerada.Text;
+
+            // Asignar la nueva contraseña al TextBox
+            AsignarContrasenha(passActual);
+
+            // Actualizar el ProgressBar
+            AsignarValorProgressBar();
+
+            // Actualizar label fortaleza contraseña
+            CambiarLabelContrasehaSegura(ObtenerNivelSeguridad(CalcularFortalezaContrasenha(passActual)));
+
+            AsignarColorProgressBar(CalcularFortalezaContrasenha(passActual));
+
+            CambiarValorLabelLongitud(passActual.Length);
+
         }
 
 
@@ -157,14 +193,7 @@ namespace ContrasenhasSeguras
 
             if (checkBoxNumeros || checkBoxMayus || checkBoxMinus || checkBoxSimboloss)
             {
-                // Generar una nueva contraseña
-                string nuevaContrasenha = GenerarContrasenha();
-
-                // Asignar la nueva contraseña al TextBox
-                AsignarContrasenha(nuevaContrasenha);
-
-                // Ahora que el TextBox tiene la nueva contraseña, actualiza el ProgressBar
-                AsignarValorProgressBar();
+                GenerarNuevaContrasenha();
             }
 
 
@@ -232,12 +261,6 @@ namespace ContrasenhasSeguras
                 // de los marcados es de cir una mayuscula, una minuscula, un numero y un simbolo, a menos
                 // que la contraseña tenga longitud 3 en cuyo caso es imposible que se cumpla eso.
             } while (!requerimientos && ret.Length >= 4);
-
-            AsignarValorProgressBar();
-
-            CambiarLabelContrasehaSegura(ObtenerNivelSeguridad(CalcularFortalezaContrasenha(ret)));
-
-            AsignarColorProgressBar(CalcularFortalezaContrasenha(ret));
 
             return ret;
         }
@@ -383,18 +406,18 @@ namespace ContrasenhasSeguras
             return lowercase ? stringBuilder.ToString().ToLower() : stringBuilder.ToString().ToUpper();
         }
 
-        private void CambiarValorLabelLongitud(string cadena)
+        private void CambiarValorLabelLongitud(int longitud)
         {
             if (labelLongitud != null)
             {
-                labelLongitud.Content = this.textoLongitudContrasenha + cadena;
+                labelLongitud.Content = this.textoLongitudContrasenha + longitud;
             }
         }
 
 
         private void ValueChangedSlider(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            CambiarValorLabelLongitud(Convert.ToInt32(slider.Value).ToString());
+            CambiarValorLabelLongitud(Convert.ToInt32(slider.Value));
         }
 
         private void AsignarColorProgressBar(int fortaleza)
@@ -458,7 +481,9 @@ namespace ContrasenhasSeguras
         }
 
 
-
-
+        private void textChangedTextBoxContrasenha(object sender, TextChangedEventArgs e)
+        {
+            ComprobarContrasenhaIngresada();
+        }
     }
 }
