@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ControlzEx.Theming;
+using MahApps.Metro.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,18 +12,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using ControlzEx.Theming;
-using MahApps.Metro.Controls;
 
 namespace ContrasenhasSeguras
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Lógica de interacción para VentanaPrincipal.xaml
     /// </summary>
-    public partial class MainWindow : MetroWindow
+    public partial class VentanaPrincipal : MetroWindow
     {
+
         Boolean checkBoxMayus = true;
         Boolean checkBoxMinus = true;
         Boolean checkBoxNumeros = true;
@@ -39,13 +39,32 @@ namespace ContrasenhasSeguras
             };
 
 
-        public MainWindow()
+        public VentanaPrincipal()
         {
             InitializeComponent();
 
-            // Suscribirse al evento Loaded para esperar hasta que la ventana esté completamente cargada
+            GenerarNuevaContrasenha();
+
             Loaded += MainWindow_Loaded;
+
+
         }
+
+        private void GenerarNuevaContrasenha()
+        {
+            AsignarCheckBox();
+
+            // Generar una nueva contraseña
+            string nuevaContrasenha = GenerarContrasenha();
+
+            // Asignar la nueva contraseña al TextBox
+            AsignarContrasenha(nuevaContrasenha);
+
+            // Actualizar el ProgressBar
+            AsignarValorProgressBar();
+        }
+
+
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
@@ -58,7 +77,7 @@ namespace ContrasenhasSeguras
 
         private void BaseThemeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            // Aplicar los colores de acento correspondientes al tema base seleccionado
+            // Aplicar los colores de 'accentColors' correspondientes al tema base seleccionado
             ApplyAccentColors(baseThemeComboBox.SelectedItem as string);
         }
 
@@ -72,7 +91,7 @@ namespace ContrasenhasSeguras
                 accentColorComboBox.Items.Add(color);
             }
 
-            // Seleccionar el primer color de acento por defecto
+            // Seleccionar el primer color de 'accentColors' por defecto
             accentColorComboBox.SelectedIndex = 0;
         }
 
@@ -90,14 +109,14 @@ namespace ContrasenhasSeguras
                 {
                     // Obtener el contenido del ComboBoxItem seleccionado
                     baseTheme = comboBoxItem.Content as string;
-                    break; // Salir del bucle una vez que se encuentra el elemento seleccionado
+                    break;
                 }
             }
 
 
             var accentColor = accentColorComboBox.SelectedItem as string;
 
-            MessageBox.Show(baseTheme + ", " + accentColor);
+            //MessageBox.Show(baseTheme + ", " + accentColor);
 
             // Verificar que los valores no sean nulos antes de llamar al método ChangeTheme
             if (baseTheme != null && accentColor != null)
@@ -107,7 +126,6 @@ namespace ContrasenhasSeguras
             }
             else
             {
-                // Manejar el caso en el que alguno de los valores sea nulo
                 MessageBox.Show("Seleccione un tema y un color de acento antes de aplicar el tema.");
             }
         }
@@ -131,13 +149,13 @@ namespace ContrasenhasSeguras
         private void ClickCopiar(object sender, RoutedEventArgs e)
         {
             Clipboard.SetText(textBoxContrasenhaGenerada.Text);
-            MessageBox.Show("Contraseña copiada al portapapeles.");
+            //MessageBox.Show("Contraseña copiada al portapapeles.");
         }
         private void ClickRenovar(object sender, RoutedEventArgs e)
         {
             AsignarCheckBox();
 
-            if(checkBoxNumeros || checkBoxMayus || checkBoxMinus || checkBoxSimboloss)
+            if (checkBoxNumeros || checkBoxMayus || checkBoxMinus || checkBoxSimboloss)
             {
                 // Generar una nueva contraseña
                 string nuevaContrasenha = GenerarContrasenha();
@@ -200,7 +218,8 @@ namespace ContrasenhasSeguras
             string ret;
             bool requerimientos = false;
 
-            do {
+            do
+            {
                 ret = "";
                 for (int x = 0; x < Convert.ToInt32(slider.Value); x++)
                 {
@@ -239,9 +258,9 @@ namespace ContrasenhasSeguras
             }
 
             return (
-                contieneMayusculas == checkBoxMayus && 
-                contieneMinusculas == checkBoxMinus && 
-                contieneNumeros == checkBoxNumeros && 
+                contieneMayusculas == checkBoxMayus &&
+                contieneMinusculas == checkBoxMinus &&
+                contieneNumeros == checkBoxNumeros &&
                 contieneSimbolos == checkBoxSimboloss
                 );
         }
@@ -366,7 +385,7 @@ namespace ContrasenhasSeguras
 
         private void CambiarValorLabelLongitud(string cadena)
         {
-            if(labelLongitud != null)
+            if (labelLongitud != null)
             {
                 labelLongitud.Content = this.textoLongitudContrasenha + cadena;
             }
@@ -380,11 +399,11 @@ namespace ContrasenhasSeguras
 
         private void AsignarColorProgressBar(int fortaleza)
         {
-            // Define los colores para los diferentes niveles de fortaleza
-            Color colorRojo = Colors.Red; // Color para los niveles más bajos de fortaleza
+            // Colores para los diferentes niveles de fortaleza de la contraseña
+            Color colorRojo = Colors.Red; // Color para los niveles más bajos
             Color colorAmarillo = Colors.Yellow; // Color intermedio entre rojo y verde
-            Color colorVerde = Colors.Green; // Color para fortaleza media
-            Color colorAzul = Colors.Blue; // Color para los niveles más altos de fortaleza
+            Color colorVerde = Colors.Green; // Color para niveles medios
+            Color colorAzul = Colors.Blue; // Color para los niveles más altos
 
             // Interpola los componentes de color entre los diferentes colores en función de la fortaleza
             byte nuevoRojo;
