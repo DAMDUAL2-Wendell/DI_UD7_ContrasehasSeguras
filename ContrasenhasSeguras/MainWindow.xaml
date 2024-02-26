@@ -9,9 +9,41 @@
         Title="Generador de Contraseñas" Height="450" Width="800"
         WindowStartupLocation="CenterScreen">
 
+    <Window.Resources>
+        <Style TargetType="CheckBox">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Width" Value="60" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="CheckBox">
+                        <BulletDecorator Background="Transparent">
+                            <BulletDecorator.Bullet>
+                                <Grid Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                                    <Ellipse x:Name="Ellipse" Margin="-5" Width="15" Height="15" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="1" HorizontalAlignment="Left"/>
+                                    <TextBlock x:Name="Content" Text="{TemplateBinding Content}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                </Grid>
+                            </BulletDecorator.Bullet>
+                        </BulletDecorator>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="Margin" Value="5"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
+            <Setter Property="FontSize" Value="20"></Setter>
+            <Setter Property="Margin" Value="10,0,0,0"></Setter>
+        </Style>
+
+    </Window.Resources>
 
     <Grid Margin="20">
-
 
         <Grid>
             <Grid.RowDefinitions>
@@ -32,9 +64,10 @@
                 <ColumnDefinition Width="30*"/>
             </Grid.ColumnDefinitions>
             <Button Grid.Column="2" Content="Copiar" HorizontalAlignment="Center" Height="50" Grid.Row="3" VerticalAlignment="Center" Width="133" Click="ClickCopiar" FontSize="20"/>
+
             <Slider Name="slider" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="22" Grid.Row="4" VerticalAlignment="Center" Width="279" Value="8" Maximum="50" ValueChanged="ValueChangedSlider" Margin="382,0,0,0"/>
-            <Label Name="labelLongitud" Grid.Column="1" VerticalContentAlignment="Center" Content="Longitud de la contraseña: 8" Height="56" Margin="10,0,0,0" Grid.Row="4" Width="312" FontSize="20"/>
-            <Label Grid.Column="1" Content="Caracteres usados:" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="55" Margin="10,0,0,0" Grid.Row="5" VerticalAlignment="Center" Width="199" FontSize="20"/>
+            <Label Name="labelLongitud" Grid.Column="1" Content="Longitud de la contraseña: 8" Height="56" Grid.Row="4" Width="312"/>
+            <Label Grid.Column="1" Content="Caracteres usados:" Height="55" Grid.Row="5" Width="199"/>
             <Grid Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" Height="55" Margin="246,0,0,0" Grid.Row="5" VerticalAlignment="Center" Width="420">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -45,29 +78,37 @@
                 <CheckBox Name="checkBoxABC" Content="ABC" HorizontalAlignment="Center" Height="26" VerticalAlignment="Center" Width="61" IsChecked="False"/>
                 <CheckBox Name="checkBoxabc" Grid.Column="1" Content="abc" HorizontalAlignment="Center" Height="32" VerticalAlignment="Center" Width="61" IsChecked="False"/>
                 <CheckBox Name="checkBox123" Grid.Column="2" Content="123" HorizontalAlignment="Center" Height="26" VerticalAlignment="Center" Width="61" IsChecked="True"/>
-                <CheckBox Name="checkBoxSimbolos" Grid.Column="3" Content="#@€" HorizontalAlignment="Center" Height="29" Margin="0,13,0,0" VerticalAlignment="Top" Width="61" IsChecked="True"/>
+                <CheckBox Name="checkBoxSimbolos" Grid.Column="3" Content=".;@" HorizontalAlignment="Center" Height="29" Margin="0,13,0,0" VerticalAlignment="Top" Width="61" IsChecked="True"/>
             </Grid>
-            <TextBox Name="textBoxContrasenhaGenerada" Grid.Column="1" Height="46" Margin="10,0,0,0" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center" Width="398" HorizontalAlignment="Left"/>
+            <TextBox Name="textBoxContrasenhaGenerada" Grid.Column="1" Height="46" Margin="10,0,0,0" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center" Width="354" HorizontalAlignment="Left"/>
             <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Name="labelEsSegura" Grid.Column="1" Content="Muy segura" HorizontalAlignment="Right" Height="70" Margin="0,66,0,0" VerticalAlignment="Top" Width="476" Grid.ColumnSpan="2" Grid.Row="1" FontSize="20" Grid.RowSpan="2"/>
-            <Button Grid.Column="1" Content="X" HorizontalAlignment="Right" Height="30" Margin ="0,0,10,0" Grid.Row="3" VerticalAlignment="Center" Width="30" Click="ClickRenovar"/>
-            <ProgressBar Name="progressBar" Grid.Column="1" Height="33" Margin="10,23,0,0" VerticalAlignment="Top" Width="199" Maximum="26" Value="3" Grid.Row="2"/>
-            <Label Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Generador de contraseñas" Height="63" Margin="129,0,0,0" Width="419" Grid.Row="1" Grid.ColumnSpan="2" FontSize="30"/>
+
+            <Button Grid.Column="1" HorizontalAlignment="Left" Height="68" Margin ="382,0,0,0" Grid.Row="3" VerticalAlignment="Center" Width="78" Click="ClickRenovar" BorderBrush="White">
+                <Button.Background>
+                    <ImageBrush ImageSource="/renew_icon_216767.png"/>
+                </Button.Background>
+            </Button>
+            <ProgressBar Name="progressBar" Grid.Column="1" Height="33" Margin="10,23,251,0" VerticalAlignment="Top" Maximum="26" Value="3" Grid.Row="2"/>
+            <Label Name="labelTitulo" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Generador de contraseñas" Height="63" Margin="129,0,0,0" Width="419" Grid.Row="1" Grid.ColumnSpan="2" FontSize="35" FontFamily="Tw Cen MT Condensed Extra Bold">
+                <Label.Foreground>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="Black"/>
+                        <GradientStop Color="#FF5B6CCC" Offset="1"/>
+                    </LinearGradientBrush>
+                </Label.Foreground>
+            </Label>
+
 
         </Grid>
 
-        <!-- Menú superior -->
         <Menu Margin="0,0,0,352">
             <MenuItem Header="Tema">
-                <!-- ComboBox para seleccionar el tema base -->
                 <ComboBox x:Name="baseThemeComboBox" VerticalAlignment="Top" HorizontalAlignment="Left" Width="150" SelectedIndex="0">
                     <ComboBoxItem Content="Dark"/>
                     <ComboBoxItem Content="Light"/>
                 </ComboBox>
-                <!-- ComboBox para seleccionar el color de acento -->
                 <ComboBox x:Name="accentColorComboBox" VerticalAlignment="Top" HorizontalAlignment="Left" Width="150">
-                    <!-- Aquí puedes generar los elementos dinámicamente en el código detrás si prefieres -->
                 </ComboBox>
-                <!-- Botón para aplicar los cambios de tema -->
                 <Button Content="Aplicar Tema" VerticalAlignment="Top" HorizontalAlignment="Left" Click="ApplyTheme_Click"/>
             </MenuItem>
         </Menu>

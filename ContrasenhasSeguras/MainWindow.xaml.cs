@@ -53,9 +53,6 @@ namespace ContrasenhasSeguras
             ApplyAccentColors(baseThemeComboBox.SelectedItem as string);
         }
 
-
-
-
         private void BaseThemeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             // Aplicar los colores de acento correspondientes al tema base seleccionado
@@ -235,7 +232,7 @@ namespace ContrasenhasSeguras
                 if (char.IsUpper(caracter)) contieneMayusculas = true;
                 else if (char.IsLower(caracter)) contieneMinusculas = true;
                 else if (char.IsDigit(caracter)) contieneNumeros = true;
-                else contieneSimbolos = true;
+                else if (char.IsSymbol(caracter))  contieneSimbolos = true;
             }
 
             return (
@@ -378,6 +375,8 @@ namespace ContrasenhasSeguras
             CambiarValorLabelLongitud(Convert.ToInt32(slider.Value).ToString());
         }
 
+        /// <summary>Asigna el color al progressBar en función del entero que se le pasa como parametro (Nivel de fortaleza de contraseña).</summary>
+        /// <param name="fortaleza">La fortaleza de la contraseña.</param>
         private void AsignarColorProgressBar(int fortaleza)
         {
             // Define los colores para los diferentes niveles de fortaleza
@@ -430,9 +429,16 @@ namespace ContrasenhasSeguras
             progressBar.Foreground = brush;
         }
 
+        /// <summary>Interpola el componente de color entre el inicio y el fin en función del valor</summary>
+        /// <param name="inicio">Color inicio.</param>
+        /// <param name="fin">Color final</param>
+        /// <param name="valor">The valor.</param>
+        /// <param name="maximo">The maximo.</param>
+        /// <returns>
+        ///   <br />
+        /// </returns>
         private byte InterpolateColorComponent(byte inicio, byte fin, int valor, int maximo)
         {
-            // Interpola el componente de color entre el inicio y el fin en función del valor
             double porcentaje = (double)valor / maximo;
             double nuevoComponente = inicio + (fin - inicio) * porcentaje;
             return (byte)nuevoComponente;

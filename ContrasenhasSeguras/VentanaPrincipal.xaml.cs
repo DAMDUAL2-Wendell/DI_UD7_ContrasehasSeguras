@@ -54,9 +54,8 @@ namespace ContrasenhasSeguras
 
             Loaded += MainWindow_Loaded;
 
-
+            // Cargar imagen svg en el boton
             AsignarSvgABoton("../../../Resources/renewal.svg", btnRenovar);
-
 
         }
 
@@ -99,26 +98,27 @@ namespace ContrasenhasSeguras
 
         private void GenerarNuevaContrasenha()
         {
-            AsignarCheckBox();
 
             // Generar una nueva contraseña
             string nuevaContrasenha = GenerarContrasenha();
 
-            AsignarColorProgressBar(CalcularFortalezaContrasenha(nuevaContrasenha));
+            AsignaLabelsYProgressBar(nuevaContrasenha);
 
+        }
+
+        private void AsignaLabelsYProgressBar(String password)
+        {
+            AsignarColorProgressBar(CalcularFortalezaContrasenha(password));
 
             // Asignar la nueva contraseña al TextBox
-            AsignarContrasenha(nuevaContrasenha);
+            AsignarContrasenha(password);
 
             // Actualizar el ProgressBar
             AsignarValorProgressBar();
 
-            CambiarLabelContrasehaSegura(ObtenerNivelSeguridad(CalcularFortalezaContrasenha(nuevaContrasenha)));
+            CambiarLabelContrasehaSegura(ObtenerNivelSeguridad(CalcularFortalezaContrasenha(password)));
 
-            CambiarValorLabelLongitud(nuevaContrasenha.Length);
-
-
-
+            CambiarValorLabelLongitud(password.Length);
         }
 
         private void ComprobarContrasenhaIngresada()
@@ -128,31 +128,15 @@ namespace ContrasenhasSeguras
             // Guardar en memoria la contrasenha que está actualmente en el TextBox
             string passActual = textBoxContrasenhaGenerada.Text;
 
-            // Asignar la nueva contraseña al TextBox
-            AsignarContrasenha(passActual);
-
-            // Actualizar el ProgressBar
-            AsignarValorProgressBar();
-
-            // Actualizar label fortaleza contraseña
-            CambiarLabelContrasehaSegura(ObtenerNivelSeguridad(CalcularFortalezaContrasenha(passActual)));
-
-            AsignarColorProgressBar(CalcularFortalezaContrasenha(passActual));
-
-            CambiarValorLabelLongitud(passActual.Length);
+            AsignaLabelsYProgressBar(passActual);
 
         }
-
-
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             // Luego de cargar la ventana, se deben cargar los colores de acento correspondientes
             ApplyAccentColors(baseThemeComboBox.SelectedItem as string);
         }
-
-
-
 
         private void BaseThemeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -285,6 +269,8 @@ namespace ContrasenhasSeguras
 
         private string GenerarContrasenha()
         {
+            AsignarCheckBox();
+
             var rand = new Random();
 
             string ret;
@@ -305,7 +291,7 @@ namespace ContrasenhasSeguras
                 // si estan marcados los 4 checkBox la contraseña debe tener al menos un caracter de cada
                 // de los marcados es de cir una mayuscula, una minuscula, un numero y un simbolo, a menos
                 // que la contraseña tenga longitud 3 en cuyo caso es imposible que se cumpla eso.
-            } while (!requerimientos);
+            } while (!requerimientos && ret.Length > 3);
 
             return ret;
         }
