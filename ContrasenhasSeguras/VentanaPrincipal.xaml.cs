@@ -31,6 +31,11 @@ namespace ContrasenhasSeguras
         Boolean checkBoxNumeros = true;
         Boolean checkBoxSimboloss = true;
 
+        private const string UppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        private const string LowercaseChars = "abcdefghijklmnopqrstuvwxyz";
+        private const string NumberChars = "0123456789";
+        private const string SymbolChars = ".;@";
+
         String textoLongitudContrasenha = "Longitud de la contraseña: ";
 
         private readonly List<string> baseThemes = new List<string> { "Dark", "Light" };
@@ -55,7 +60,7 @@ namespace ContrasenhasSeguras
             Loaded += MainWindow_Loaded;
 
             // Cargar imagen svg en el boton
-            AsignarSvgABoton("../../../Resources/renewal.svg", btnRenovar);
+            //AsignarSvgABoton("../../../Resources/renewal.svg", btnRenovar);
 
         }
 
@@ -291,17 +296,54 @@ namespace ContrasenhasSeguras
                 // si estan marcados los 4 checkBox la contraseña debe tener al menos un caracter de cada
                 // de los marcados es de cir una mayuscula, una minuscula, un numero y un simbolo, a menos
                 // que la contraseña tenga longitud 3 en cuyo caso es imposible que se cumpla eso.
-            } while (!requerimientos && ret.Length > 3);
+            } while (!requerimientos && slider.Value >=4);
 
             return ret;
         }
 
+
+        private string GenerarContrasenha2()
+        {
+
+            var rand = new Random();
+
+            StringBuilder password = new StringBuilder();
+            bool tieneMayusculas = checkBoxABC.IsChecked == true;
+            bool tieneMinusculas = checkBoxabc.IsChecked == true;
+            bool tieneNumeros = checkBox123.IsChecked == true;
+            bool tieneSimbolos = checkBoxSimbolos.IsChecked == true;
+            int length = (int)slider.Value;
+
+            if (!tieneMayusculas && !tieneMinusculas && !tieneNumeros && !tieneSimbolos)
+            {
+                String mensaje = "Por favor, selecciona al menos un tipo de carácter para incluir en la contraseña.";
+                labelEsSegura.Content = mensaje;
+            }
+
+            string availableChars = "";
+            if (tieneMayusculas)
+                availableChars += UppercaseChars;
+            if (tieneMinusculas)
+                availableChars += LowercaseChars;
+            if (tieneNumeros)
+                availableChars += NumberChars;
+            if (tieneSimbolos)
+                availableChars += SymbolChars;
+
+            for (int i = 0; i < length; i++)
+            {
+                password.Append(availableChars[rand.Next(availableChars.Length)]);
+            }
+
+            return password.ToString();
+        }
         private bool comprobarRequerimientosContrasenha(string Contrasenha)
         {
             bool contieneMayusculas = false;
             bool contieneMinusculas = false;
             bool contieneNumeros = false;
             bool contieneSimbolos = false;
+
 
             char[] simbolos = { '.', ';', '@' };
 

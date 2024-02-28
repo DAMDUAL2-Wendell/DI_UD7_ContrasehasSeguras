@@ -5,7 +5,7 @@ VisualStudioVersion = 17.1.32421.90
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContrasenhasSeguras", "ContrasenhasSeguras\ContrasenhasSeguras.csproj", "{780C94BC-AFBC-4671-AB9D-263DFE994E47}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Instalador", "Instalador\Instalador.vdproj", "{C83479FC-0422-4CA5-BB14-E545D639F3B2}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{4E2D98CC-7BBE-43EE-A44E-8BFBC6AC1CC8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,8 +17,8 @@ Global
 		{780C94BC-AFBC-4671-AB9D-263DFE994E47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{780C94BC-AFBC-4671-AB9D-263DFE994E47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{780C94BC-AFBC-4671-AB9D-263DFE994E47}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C83479FC-0422-4CA5-BB14-E545D639F3B2}.Debug|Any CPU.ActiveCfg = Debug
-		{C83479FC-0422-4CA5-BB14-E545D639F3B2}.Release|Any CPU.ActiveCfg = Release
+		{4E2D98CC-7BBE-43EE-A44E-8BFBC6AC1CC8}.Debug|Any CPU.ActiveCfg = Debug
+		{4E2D98CC-7BBE-43EE-A44E-8BFBC6AC1CC8}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -8,6 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="1000_F_198496190_TRgMtAnmx20H51DgZdCX5zgphwXynuQ7.jpg" />
+    <None Remove="128300783_81834c91fa_b.jpg" />
+    <None Remove="360_F_550958748_OeGcRonEUNoVhd0wjd9zSEMhLFIGO9Bt.jpg" />
+    <None Remove="9267284e7733f4bec00d2e114d3f3ba1_XL.jpg" />
+    <None Remove="john-the-ripper-behackerpro-password-security-ciberseguridad.jpg" />
+    <None Remove="password-gi-828766800 jpg.jpg" />
+    <None Remove="Password-Policy-Best-Practices-2021.jpg" />
+    <None Remove="password.png" />
+    <None Remove="pngtree-matrix-digital-code-hacker-background-image_908354.jpg" />
     <None Remove="renewal.svg" />
     <None Remove="renew_icon_216767.png" />
   </ItemGroup>
@@ -18,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="renewal.svg" />
+    <Resource Include="pngtree-matrix-digital-code-hacker-background-image_908354.jpg" />
     <Resource Include="renew_icon_216767.png" />
   </ItemGroup>
 
